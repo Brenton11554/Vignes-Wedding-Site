@@ -881,26 +881,32 @@ if(e.key==="ArrowLeft")document.querySelector(".lightbox-prev").click();
 if(e.key==="ArrowRight")document.querySelector(".lightbox-next").click();
 });
 /* MUSIC */
-let player,musicStarted=false;
-function onYouTubeIframeAPIReady(){
-player=new YT.Player('player',{height:'0',width:'0',videoId:'rtOvBOTyX00'});
+let musicStarted = false;
+
+function startMusic() {
+  if(!musicStarted && player && typeof player.playVideo === "function"){
+    // start muted first (bypasses autoplay block)
+    player.setVolume(0);
+    player.playVideo();
+
+    // fade in volume to 40%
+    let vol = 0;
+    let fade = setInterval(()=>{
+      if(vol >= 40){
+        clearInterval(fade);
+      } else {
+        vol += 2;
+        player.setVolume(vol);
+      }
+    }, 200);
+
+    musicStarted = true;
+  }
 }
-let tag=document.createElement('script');
-tag.src="https://www.youtube.com/iframe_api";
-document.body.appendChild(tag);
-document.addEventListener("click",function(){
-if(!musicStarted&&player){
-player.playVideo();
-player.setVolume(0);
-let vol=0;
-let fade=setInterval(()=>{
-if(vol>=40)clearInterval(fade);
-player.setVolume(vol);
-vol+=2;
-},200);
-musicStarted=true;
-}
-});
+
+// Make sure the click directly triggers the function
+document.body.addEventListener("click", startMusic, {once: true});
+
 /* RSVP TOGGLE */
 document.getElementById('plusone_check').addEventListener('change', function() {
 document.getElementById('plusone').style.display = this.checked ? 'flex' : 'none';
