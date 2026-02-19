@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brenton & Nastassja | Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ================= GLOBAL ================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Montserrat',sans-serif;
+  background: linear-gradient(to bottom, #f9f7f4 0%, #eee8df 100%);
+  color:#2c2c2c;
+  line-height:1.6;
+}
+section{
+  padding:120px 20px;
+  max-width:1200px;
+  margin:auto;
+  text-align:center;
+  scroll-margin-top:100px;
+}
+h1,h2,h3{font-family:'Playfair Display',serif; color:#800020;}
+h2{margin-bottom:40px; font-size:2.5rem; letter-spacing:1px;}
+p{font-size:1.1rem; max-width:800px; margin:0 auto 20px;}
+
+/* ================= NAV ================= */
+nav {
+  position: fixed;
+  width: 100%;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 18px 0;
+  z-index: 1000;
+  transition: all 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(128, 0, 32, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+nav.scrolled .nav-links a,
+nav.scrolled .logo { color: white; }
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #800020;
+  transition: color 0.3s;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+}
+.nav-links a{
+  text-decoration:none;
+  color:#2c2c2c;
+  font-weight:600;
+  letter-spacing:1px;
+  position:relative;
+  transition:color 0.3s;
+}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#b76e79;
+  transition:all 0.4s ease;
+  transform:translateX(-50%);
+}
+.nav-links a:hover::after{ width:100%; }
+.nav-links a.active{ color:#b76e79; }
+nav.scrolled .nav-links a::after{ background:white; }
+
+/* ================= HAMBURGER ================= */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  cursor:pointer;
+  gap:6px;
+  z-index:1100;
+}
+.hamburger span{
+  width:26px;
+  height:3px;
+  background:#800020;
+  border-radius:3px;
+  transition:all 0.4s ease;
+}
+.hamburger.active span:nth-child(1){
+  transform:rotate(45deg) translate(6px,6px);
+}
+.hamburger.active span:nth-child(2){
+  opacity:0;
+}
+.hamburger.active span:nth-child(3){
+  transform:rotate(-45deg) translate(6px,-6px);
+}
+nav.scrolled .hamburger span{ background:white; }
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    position: absolute;
+    top: 75px;
+    left: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 30px 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  }
+  .nav-links.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  nav.scrolled .nav-links {
+    background: rgba(128, 0, 32, 0.95);
+  }
+  nav.scrolled .nav-links a { color: white; }
+  nav.scrolled .hamburger span { background: white; }
+}
+
+/* ================= SCROLL PROGRESS ================= */
+.progress-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:4px;
+  width:0%;
+  background:linear-gradient(to right,#800020,#b76e79);
+  z-index:2000;
+  transition:width 0.2s ease;
+}
+
+/* ================= QUIZ ================= */
+.hero{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  padding:80px 20px;
+  text-align:center;
+  background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+  backdrop-filter: blur(8px);
+  border-radius:15px;
+}
+.quiz-container {
+  max-width:700px;
+  margin-top:30px;
+  padding:30px;
+  background:rgba(255,255,255,0.9);
+  border-radius:20px;
+  backdrop-filter: blur(12px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.1);
+}
+.question{
+  margin-bottom:20px;
+  text-align:left;
+  font-size:1.2rem;
+  display:none;
+  opacity:0;
+  transform:translateY(20px);
+  transition: all 0.6s ease;
+}
+.question.active{
+  display:block;
+  opacity:1;
+  transform:translateY(0);
+}
+.answers{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  margin-top:10px;
+}
+.answers button{
+  padding:12px 25px;
+  border:none;
+  border-radius:50px;
+  background:#800020;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+.answers button:hover{
+  background:#b76e79;
+  transform:translateY(-3px);
+  box-shadow:0 15px 30px rgba(0,0,0,0.2);
+}
+.result{
+  margin-top:25px;
+  font-size:1.4rem;
+  font-weight:700;
+  color:#800020;
+}
+
+/* ================= GOLD DIVIDER ================= */
+.divider{
+  width:60px;
+  height:3px;
+  background:linear-gradient(to right,#d4af37,#b76e79,#d4af37);
+  margin:60px auto;
+  border-radius:2px;
+  opacity:0;
+  transform:translateY(20px);
+  transition:all 0.8s ease;
+}
+.divider.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:#2c2c2c;
+  color:#f9f7f4;
+  padding:50px 20px;
+  text-align:center;
+  font-size:0.9rem;
+}
+
+/* ================= MEDIA ================= */
+@media(max-width:768px){
+.hero{padding:50px 15px;}
+.quiz-container{padding:25px;}
+.answers button{padding:10px 20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress-bar"></div>
+
+<nav id="navbar">
+  <div class="nav-container">
+    <div class="logo">B & N</div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="index.html#story">Our Story</a></li>
+      <li><a href="index.html#theme">Theme</a></li>
+      <li><a href="index.html#gallery">Gallery</a></li>
+      <li><a href="index.html#details">Details</a></li>
+      <li><a href="index.html#timeline">Timeline</a></li>
+      <li><a href="index.html#rsvp">RSVP</a></li>
+      <li><a href="quiz.html" class="active">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section id="quiz" class="hero">
+  <h2>How Well Do You Know Us?</h2>
+  <p>Try this fun quiz about Brenton & Nastassja!</p>
+
+  <div class="quiz-container" id="quiz-container">
+    <div class="question active">
+      <p>Where did we first meet?</p>
+      <div class="answers">
+        <button data-answer="1">At a bar</button>
+        <button data-answer="0">At school</button>
+        <button data-answer="0">At work</button>
+        <button data-answer="0">Online</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>In what year did we get engaged?</p>
+      <div class="answers">
+        <button data-answer="0">2020</button>
+        <button data-answer="1">2022</button>
+        <button data-answer="0">2024</button>
+        <button data-answer="0">2026</button>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>Which city did we move to in 2022?</p>
+      <div class="answers">
+        <button data-answer="1">Pretoria</button>
+        <button data-answer="0">Port Elizabeth</button>
+        <button data-answer="0">Cape Town</button>
+        <button data-answer="0">Johannesburg</button>
+      </div>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+</section>
+
+<div class="divider" id="divider1"></div>
+
+<footer>
+  <p>Created with love by Brenton & Nastassja</p>
+</footer>
+
+<script>
+/* NAV SHRINK */
+window.addEventListener("scroll",()=>document.getElementById("navbar")
+.classList.toggle("scrolled",window.scrollY>50));
+
+/* SCROLL PROGRESS */
+window.addEventListener("scroll", () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById("progress-bar").style.width = progress + "%";
+});
+
+/* MOBILE NAV TOGGLE */
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("nav-links");
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+  hamburger.classList.toggle("active");
+});
+document.querySelectorAll(".nav-links a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    navLinks.classList.remove("active");
+    hamburger.classList.remove("active");
+  });
+});
+
+/* ================= QUIZ LOGIC ================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const questions = Array.from(document.querySelectorAll('.question'));
+  const resultEl = document.getElementById('result');
+  let currentQuestion = 0;
+  let score = 0;
+
+  // Ensure only the first question shows initially
+  questions.forEach((q,i)=>{
+    if(i===0) q.classList.add('active');
+    else q.classList.remove('active');
+  });
+
+  // Animate each question as it becomes active
+  function showQuestion(index){
+    questions.forEach(q=>q.classList.remove('active'));
+    const q = questions[index];
+    q.classList.add('active');
+    q.style.opacity = 0;
+    q.style.transform = "translateY(20px)";
+    setTimeout(()=>{
+      q.style.opacity = 1;
+      q.style.transform = "translateY(0)";
+    },50);
+  }
+
+  questions.forEach((q,idx)=>{
+    q.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(btn.dataset.answer === "1") score++;
+        currentQuestion++;
+        if(currentQuestion < questions.length){
+          showQuestion(currentQuestion);
+        } else {
+          resultEl.textContent = `You got ${score} out of ${questions.length} correct! 🎉`;
+        }
+      });
+    });
+  });
+});
+
+/* ================= GOLD DIVIDER ANIMATION ================= */
+const divider = document.getElementById("divider1");
+const dividerObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add("visible");}
+  });
+},{threshold:0.3});
+dividerObserver.observe(divider);
+</script>
+</body>
+</html>
