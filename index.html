@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brenton & Nastassja | Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 /* ================= GLOBAL ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -192,6 +192,20 @@ z-index:2000;
 transition:width 0.2s ease;
 }
 /* ================= HERO ================= */
+.hero-title {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+
+.married-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  font-weight: normal;
+  color: #ffffff;
+  display: block;
+  margin-top: 10px;
+}
+
 .hero{
 height:100vh;
 background:
@@ -469,10 +483,15 @@ font-size:0.9rem;
 }
 /* MOBILE RESPONSIVE */
 @media (max-width:768px){
-.hero{
-background-attachment:scroll;
+.hero-title {
+  font-size: 2.2rem;
+}
+
+.married-text {
+  font-size: 2.4rem;
 }
 }
+
 .hero h1 {
 font-size:2.5rem;
 }
@@ -546,8 +565,10 @@ font-size:30px;
   </div>
 </nav>
 <section id="home" class="hero">
-<h1>Brenton & Nastassja</h1>
-<p>Are Getting Married</p>
+<h1 class="hero-title">
+  Brenton & Nastassja
+  <span class="married-text">Are Getting Married</span>
+</h1>
 <p>18 July 2026</p>
 <div class="countdown">
 <div class="time-box"><div class="time-number" id="days">00</div><div class="time-label">Days</div></div>
