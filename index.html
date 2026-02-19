@@ -10,6 +10,16 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
+scroll-snap-type:y mandatory;
+overflow-y:scroll;
+}
+
+section{
+scroll-snap-align:start;
+min-height:100vh;
+}
+
+body{
 font-family:'Montserrat',sans-serif;
 background: linear-gradient(to bottom, #f9f7f4 0%, #eee8df 100%);
 color:#2c2c2c;
@@ -21,7 +31,41 @@ max-width:1200px;
 margin:auto;
 text-align:center;
 scroll-margin-top:100px;
+/* LOADER */
+#loader{
+position:fixed;
+width:100%;
+height:100vh;
+background:#f9f7f4;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:3000;
+transition:opacity 0.6s ease;
 }
+
+.loader-heart{
+font-size:3rem;
+color:#800020;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);opacity:0.6;}
+50%{transform:scale(1.2);opacity:1;}
+100%{transform:scale(1);opacity:0.6;}
+}
+/* Fade-in setup */
+opacity:0;
+transform:translateY(50px);
+transition:opacity 1s ease, transform 1s ease;
+}
+
+section.visible{
+opacity:1;
+transform:translateY(0);
+}
+
 h1,h2,h3{font-family:'Playfair Display',serif; color:#800020;}
 h2{margin-bottom:40px; font-size:2.5rem; letter-spacing:1px;}
 p{font-size:1.1rem; max-width:800px; margin:0 auto 20px;}
@@ -481,6 +525,26 @@ padding:50px 20px;
 text-align:center;
 font-size:0.9rem;
 }
+/* FLOATING RSVP BUTTON */
+.floating-rsvp{
+position:fixed;
+bottom:30px;
+right:30px;
+background:#800020;
+color:white;
+padding:14px 24px;
+border-radius:50px;
+font-weight:600;
+text-decoration:none;
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+transition:all 0.3s ease;
+z-index:1500;
+}
+
+.floating-rsvp:hover{
+transform:translateY(-5px);
+box-shadow:0 20px 45px rgba(0,0,0,0.3);
+}
 /* MOBILE RESPONSIVE */
 @media (max-width:768px){
 .hero-title {
@@ -530,6 +594,12 @@ padding:30px 20px;
 .lightbox-nav {
 font-size:30px;
 }
+.floating-rsvp{
+bottom:20px;
+right:20px;
+padding:12px 20px;
+font-size:0.9rem;
+}
 .lightbox-prev {left:20px;}
 .lightbox-next {right:20px;}
 .lightbox-close {
@@ -541,6 +611,9 @@ font-size:30px;
 </style>
 </head>
 <body>
+<div id="loader">
+  <div class="loader-heart">❤</div>
+</div>
 <div class="progress-bar" id="progress-bar"></div>
 <div id="player" style="display:none;"></div>
 <nav id="navbar">
@@ -702,6 +775,7 @@ font-size:30px;
 <footer>
 <p>Created with love by Brenton & Nastassja</p>
 </footer>
+<a href="#rsvp" class="floating-rsvp">RSVP Now</a>
 <div class="lightbox" id="lightbox">
 <span class="lightbox-close">&times;</span>
 <span class="lightbox-nav lightbox-prev">&#10094;</span>
@@ -709,6 +783,12 @@ font-size:30px;
 <span class="lightbox-nav lightbox-next">&#10095;</span>
 </div>
 <script>
+/* LOADER FADE OUT */
+window.addEventListener("load", ()=>{
+  const loader=document.getElementById("loader");
+  loader.style.opacity="0";
+  setTimeout(()=>{loader.style.display="none";},600);
+});
 /* NAV SHRINK */
 window.addEventListener("scroll",()=>document.getElementById("navbar")
 .classList.toggle("scrolled",window.scrollY>50));
@@ -801,6 +881,21 @@ const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 const progress = (scrollTop / docHeight) * 100;
 document.getElementById("progress-bar").style.width = progress + "%";
 });
+/* SECTION FADE IN */
+const sections = document.querySelectorAll("section");
+
+const sectionObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+    }
+  });
+},{threshold:0.2});
+
+sections.forEach(section=>{
+  sectionObserver.observe(section);
+});
+
 /* MOBILE NAV TOGGLE */
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("nav-links");
