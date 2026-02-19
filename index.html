@@ -65,6 +65,22 @@ section.visible{
 opacity:1;
 transform:translateY(0);
 }
+/* GOLD DIVIDER */
+.section-divider{
+width:120px;
+height:2px;
+margin:60px auto;
+background:linear-gradient(to right, transparent, #b76e79, transparent);
+opacity:0;
+transform:scaleX(0);
+transform-origin:center;
+transition:opacity 1s ease, transform 1s ease;
+}
+
+.section-divider.visible{
+opacity:1;
+transform:scaleX(1);
+}
 
 h1,h2,h3{font-family:'Playfair Display',serif; color:#800020;}
 h2{margin-bottom:40px; font-size:2.5rem; letter-spacing:1px;}
@@ -537,14 +553,26 @@ border-radius:50px;
 font-weight:600;
 text-decoration:none;
 box-shadow:0 15px 35px rgba(0,0,0,0.2);
-transition:all 0.3s ease;
+transition:all 0.4s ease;
 z-index:1500;
+
+/* Hidden by default */
+opacity:0;
+transform:translateY(20px);
+pointer-events:none;
+}
+
+.floating-rsvp.visible{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
 }
 
 .floating-rsvp:hover{
 transform:translateY(-5px);
 box-shadow:0 20px 45px rgba(0,0,0,0.3);
 }
+
 /* MOBILE RESPONSIVE */
 @media (max-width:768px){
 .hero-title {
@@ -650,6 +678,7 @@ font-size:30px;
 <div class="time-box"><div class="time-number" id="seconds">00</div><div class="time-label">Seconds</div></div>
 </div>
 </section>
+<div class="section-divider"></div>
 <section id="story">
 <h2>Our Story</h2>
 <div class="timeline">
@@ -671,6 +700,7 @@ font-size:30px;
 </div>
 </div>
 </section>
+<div class="section-divider"></div>
 <section id="theme">
 <h2>Wedding Theme</h2>
 <p>Elegant • Smart</p>
@@ -682,6 +712,7 @@ font-size:30px;
 <div class="color-swatch" style="background:#2c2c2c;"><span>Charcoal</span></div>
 </div>
 </section>
+<div class="section-divider"></div>
 <section id="gallery">
 <h2>Our Moments</h2>
 <div class="gallery-grid">
@@ -693,6 +724,7 @@ font-size:30px;
 <img src="https://lh3.googleusercontent.com/pw/AP1GczOCaVvervvO-NGmiVOyuQdWovJL63evUpWEMcYEq_dmaYjhJ8Vbaw09vuQr1HWKN0atdPRk8vqI0sMldX8cIhJUt4SDuwdxoCWxr6_69volTr6oShVnKpPrWLBcd_YVDLZVQLqr0qvby00w5OALzzZISQ" alt="Our Moment 6">
 </div>
 </section>
+<div class="section-divider"></div>
 <section id="details">
 <h2>Wedding Details</h2>
 <div class="details-info">
@@ -711,6 +743,7 @@ font-size:30px;
 </div>
 <a href="https://www.google.com/maps/dir/?api=1&destination=Maylamore+Wedding+Venue, Cape Rd, Greenbushes, Gqeberha, 6025, South Africa" target="_blank" class="directions-button">Get Directions</a>
 </section>
+<div class="section-divider"></div>
 <section id="timeline">
 <h2>Wedding Day Timeline</h2>
 <div class="timeline">
@@ -752,6 +785,7 @@ font-size:30px;
 </div>
 </div>
 </section>
+<div class="section-divider"></div>
 <section id="rsvp">
 <h2>RSVP</h2>
 <p>RSVP by April 30, 2026</p>
@@ -894,6 +928,31 @@ const sectionObserver = new IntersectionObserver((entries)=>{
 
 sections.forEach(section=>{
   sectionObserver.observe(section);
+});
+/* DIVIDER ANIMATION */
+const dividers = document.querySelectorAll(".section-divider");
+
+const dividerObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+    }
+  });
+},{threshold:0.5});
+
+dividers.forEach(divider=>{
+  dividerObserver.observe(divider);
+});
+
+/* FLOATING RSVP SHOW ON SCROLL */
+const rsvpButton = document.querySelector(".floating-rsvp");
+
+window.addEventListener("scroll", ()=>{
+  if(window.scrollY > 300){
+    rsvpButton.classList.add("visible");
+  } else {
+    rsvpButton.classList.remove("visible");
+  }
 });
 
 /* MOBILE NAV TOGGLE */
