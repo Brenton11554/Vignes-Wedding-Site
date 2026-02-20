@@ -690,7 +690,7 @@ font-size:30px;
 <div class="details-info">
 <h3>Date & Time</h3>
 <p>Saturday, 18 July 2026</p>
-<p>Ceremony and Reception: 2:00 PM to 2:00 AM</p>
+<p>Ceremony and Reception: 2:00 PM to 12:00 AM</p>
 <h3>Location</h3>
 <p>Maylamore Venue</p>
 <p>Cape Rd, Greenbushes, Gqeberha, 6025, South Africa</p>
@@ -740,7 +740,7 @@ font-size:30px;
 <p>DJ drops the beats, dance floor erupts. Last until 2 AM if you can, bonus points for surviving without blisters or regrets.</p>
 </div>
 <div class="timeline-item">
-<h3>2:00 AM - Goodnight!</h3>
+<h3>11:45 PM - Goodnight!</h3>
 <p>Party's over! Go home, you're drunk (or just tired). Thanks for celebrating; drive safe or Uber, please no heroes.</p>
 </div>
 </div>
@@ -761,12 +761,9 @@ font-size:30px;
 <input type="text" name="PlusOneSurname" placeholder="Plus One Surname">
 <input type="text" name="PlusOneSongRequest" placeholder="Plus One Song Request">
 </div>
-<label><input type="checkbox" id="allergies_check"> Food Allergies?</label>
-<div id="allergies" class="hidden-fields">
-<textarea name="Allergies" placeholder="Specify Allergies"></textarea>
-</div>
 <button type="submit">Confirm Attendance</button>
 </form>
+<p style="font-style: italic; color: #800020;">P.S. No kids allowed – we love the little monsters, but this shindig is for adults only. Time to hire a babysitter and party like it's not a school night!</p>
 </section>
 <footer>
 <p>Created with love by Brenton & Nastassja</p>
@@ -867,9 +864,6 @@ document.body.addEventListener("click", startMusic, {once: true});
 /* RSVP TOGGLE */
 document.getElementById('plusone_check').addEventListener('change', function() {
 document.getElementById('plusone').style.display = this.checked ? 'flex' : 'none';
-});
-document.getElementById('allergies_check').addEventListener('change', function() {
-document.getElementById('allergies').style.display = this.checked ? 'block' : 'none';
 });
 /* SCROLL PROGRESS */
 window.addEventListener("scroll", () => {
