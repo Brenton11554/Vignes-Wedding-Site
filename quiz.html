@@ -257,7 +257,6 @@ footer{
 </style>
 </head>
 <body>
-
 <div class="progress-bar" id="progress-bar"></div>
 
 <nav id="navbar">
@@ -275,7 +274,6 @@ footer{
       <li><a href="index.html#gallery">Gallery</a></li>
       <li><a href="index.html#details">Details</a></li>
       <li><a href="index.html#timeline">Timeline</a></li>
-      <li><a href="index.html#rsvp">RSVP</a></li>
       <li><a href="quiz.html" class="active">Quiz</a></li>
     </ul>
   </div>
@@ -284,7 +282,6 @@ footer{
 <section id="quiz" class="hero">
   <h2>How Well Do You Know Us?</h2>
   <p>Try this fun quiz about Brenton & Nastassja!</p>
-
   <div class="quiz-container" id="quiz-container">
     <div class="question active">
       <p>What rugby team does Brenton support?</p>
@@ -295,7 +292,6 @@ footer{
         <button data-answer="0">Lions</button>
       </div>
     </div>
-
     <div class="question">
       <p>What is Tashi's favorite music genre?</p>
       <div class="answers">
@@ -305,7 +301,6 @@ footer{
         <button data-answer="0">Afrikaans</button>
       </div>
     </div>
-
     <div class="question">
       <p>How old is little Carter</p>
       <div class="answers">
@@ -315,7 +310,6 @@ footer{
         <button data-answer="1">4</button>
       </div>
     </div>
-
     <div class="question">
       <p>Guess the relationship of the Bestman of the Groom</p>
       <div class="answers">
@@ -325,7 +319,6 @@ footer{
         <button data-answer="0">Uncle</button>
       </div>
     </div>
-
     <div class="question">
       <p>When is Nastassja's birthday?</p>
       <div class="answers">
@@ -335,7 +328,6 @@ footer{
         <button data-answer="0">6 February</button>
       </div>
     </div>
-
     <div class="result" id="result"></div>
   </div>
 </section>
@@ -387,7 +379,6 @@ document.addEventListener('DOMContentLoaded', () => {
     else q.classList.remove('active');
   });
 
-  // Animate each question as it becomes active
   function showQuestion(index){
     questions.forEach(q=>q.classList.remove('active'));
     const q = questions[index];
@@ -426,6 +417,3 @@ dividerObserver.observe(divider);
 </script>
 </body>
 </html>
-
-
-
